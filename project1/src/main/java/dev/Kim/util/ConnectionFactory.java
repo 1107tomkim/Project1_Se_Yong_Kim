@@ -6,19 +6,14 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class ConnectionFactory {
-    public static Connection getConnection() throws SQLException {
+    public static Connection getConnection() {
+        String url = System.getenv("POSTGRES_SQL_DB");
+        String username = System.getenv("DB_USERNAME");
+        String password = System.getenv("PASSWORD");
         try {
-            Class.forName("org.postgresql.Driver"); // forName is a Builtin method ( Function in Python and other language )
+            return DriverManager.getConnection(url, username, password);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
-        catch (ClassNotFoundException e) {
-            System.out.println("CLASS WAS NOT FOUND!!");
-            e.printStackTrace();
-        }
-
-        String url = "jdbc:postgresql://localhost:5432/postgres?currentSchema=project1";
-        String username = "postgres";
-        String password = "password";
-
-        return DriverManager.getConnection(url, username, password);
     }
 }
