@@ -14,29 +14,40 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public User createUser(User user) {
-        if (user.getUsername().length() == 0){
+        if(user.getUsername().length() == 0){
             throw new RuntimeException("Username cannot be empty!");
         }
-        return null;
+        if(user.getPassword().length() == 0){
+            throw new RuntimeException("Password cannot be empty!");
+        }
+        User savedUser = this.userDAO.createUser(user);
+        return savedUser;
     }
 
     @Override
     public User getUserById(int id) {
-        return null;
+        return this.userDAO.getUserById(id);
     }
 
     @Override
     public List<User> getAllUsers() {
-        return null;
+        return this.userDAO.getAllUsers();
     }
 
     @Override
     public User UpdateUser(User user) {
-        return null;
+        if(user.getUsername().length() == 0){
+            throw new RuntimeException("Username cannot be empty!");
+        }
+        if(user.getPassword().length() == 0){
+            throw new RuntimeException("Password cannot be empty!");
+        }
+
+        return this.userDAO.UpdateUser(user);
     }
 
     @Override
     public boolean deleteUserById(int id) {
-        return false;
+        return this.userDAO.deleteUserById(id);
     }
 }

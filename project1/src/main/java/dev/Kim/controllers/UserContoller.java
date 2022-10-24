@@ -21,16 +21,16 @@ public class UserContoller {
 
     public Handler getUserByIdHandler = (ctx) ->{
         int id = Integer.parseInt(ctx.pathParam("id"));//This will take what value was in the {id} and turn it into an int for us to use
-        User user = Driver.userService.getBookById(id);
+        User user = Driver.userService.getUserById(id);
         Gson gson = new Gson();
         String json = gson.toJson(user);
         ctx.result(json);
     };
 
     public Handler getAllUsers = (ctx) ->{
-        List<User> Users = Driver.userService.getAllBooks();
+        List<User> users = Driver.userService.getAllUsers();
         Gson gson = new Gson();
-        String json = gson.toJson(user);
+        String json = gson.toJson(users);
         ctx.result(json);
     };
 
@@ -38,7 +38,7 @@ public class UserContoller {
         String userJSON = ctx.body();
         Gson gson = new Gson();
         User user = gson.fromJson(userJSON, User.class);
-        User updateUser = Driver.userService.updateUser(user);
+        User updateUser = Driver.userService.UpdateUser(user);
         String json = gson.toJson(updateUser);
         ctx.result(json);
     };

@@ -16,8 +16,12 @@ public class Driver {
 
         UserContoller userContoller = new UserContoller();
 
-        app.get("/user/{id}", userContoller, getUserBy )
+        app.get("/user/{id}", userContoller.getUserByIdHandler);
+        app.get("/user", userContoller.getAllUsers);
+        app.post("/user", userContoller.createUser);
+        app.put("/user", userContoller.updateUserHandler);
+        app.delete("/user/{id}", userContoller.deleteUserHandler);
 
-        app.start();
+        app.start(3001);
     }
 }

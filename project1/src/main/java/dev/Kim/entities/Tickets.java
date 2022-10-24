@@ -34,7 +34,8 @@ public class Tickets {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Tickets tickets)) return false;
+        if (!(o instanceof Tickets)) return false;
+        Tickets tickets = (Tickets) o;
         return id == tickets.id && amount == tickets.amount && Objects.equals(descriptions, tickets.descriptions) && status == tickets.status;
     }
 

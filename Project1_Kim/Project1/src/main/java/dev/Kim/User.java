@@ -1,4 +1,4 @@
-package dev.Kim.entities;
+package dev.Kim;
 
 import java.util.Objects;
 
@@ -75,4 +75,5 @@ public class User {
     public void setManager(boolean manager) {
         isManager = manager;
     }
+}
 }
