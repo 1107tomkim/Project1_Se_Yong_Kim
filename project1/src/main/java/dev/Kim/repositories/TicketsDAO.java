@@ -14,7 +14,10 @@ public interface TicketsDAO {
 
     List<Tickets> getAllTickets();
 
+    List<Tickets> getUserTickets(int id);
+
     Tickets updateTickets(Tickets tickets);
+    Tickets updateStatus(Tickets tickets);
 
     boolean deleteTicketsById(int id);
 }

@@ -13,8 +13,11 @@ public interface TicketsService {
 
     List<Tickets> getPendingTickets();
     List<Tickets> getAllTickets();
+    List<Tickets> getUserTickets(int id);
 
     Tickets updateTickets(Tickets tickets);
+
+    Tickets updateStatus(Tickets tickets);
 
     boolean deleteTicketsById(int id);
 }

@@ -1,6 +1,7 @@
 package dev.Kim.services;
 
 import dev.Kim.driver.Driver;
+import dev.Kim.entities.Status;
 import dev.Kim.entities.Tickets;
 import dev.Kim.repositories.TicketsDAO;
 import dev.Kim.repositories.TicketsDAOPostgres;
@@ -14,7 +15,12 @@ public class TicketsServiceImpl implements TicketsService{
     public TicketsServiceImpl(TicketsDAO ticketsDAO) { this.ticketsDAO = ticketsDAO; }
     @Override
     public Tickets createTickets(Tickets tickets) {
-        if(tickets.getDescriptions().length() == 0){
+        System.out.println(tickets);
+        if(tickets.getDescriptions().length() == 0 || tickets.getDescriptions() == null){
+//            System.out.println(tickets);
+//            Tickets faketicket = new Tickets();
+//            faketicket.setId(-1);
+//            return faketicket;
             throw new RuntimeException("Description cannot be empty!");
         }
         if(tickets.getAmount() <= 0 || tickets.getAmount() > 100000){
@@ -32,12 +38,22 @@ public class TicketsServiceImpl implements TicketsService{
 
     @Override
     public List<Tickets> getPendingTickets() {
-        return this.ticketsDAO.getPendingTickets();
+        if(Driver.login.isManager()) {
+            return this.ticketsDAO.getPendingTickets();
+        }
+        else {
+            throw new RuntimeException("You do not have permission to view PENDING tickets!");
+        }
     }
 
     @Override
     public List<Tickets> getAllTickets() {
         return this.ticketsDAO.getAllTickets();
+    }
+
+    @Override
+    public List<Tickets> getUserTickets(int id) {
+        return this.ticketsDAO.getUserTickets(id);
     }
 
     @Override
@@ -49,6 +65,21 @@ public class TicketsServiceImpl implements TicketsService{
             throw new RuntimeException("Amount cannot be less than 0 or exceed 100000.");
         }
         return this.ticketsDAO.updateTickets(tickets);
+    }
+
+    @Override
+    public Tickets updateStatus(Tickets tickets) {
+        if (Driver.login.isManager()) {
+            Tickets check_tickets = this.ticketsDAO.getTicketsById(tickets.getId());
+            if(check_tickets.getStatus().equals(Status.PENDING)) {
+                Tickets new_tickets = ticketsDAO.updateStatus(tickets);
+                return new_tickets;
+            }
+        }
+        else {
+            throw new RuntimeException("YOU DO NOT HAVE PERMISSION TO CHANGE TICKET STATUS!");
+        }
+        return null;
     }
 
     @Override

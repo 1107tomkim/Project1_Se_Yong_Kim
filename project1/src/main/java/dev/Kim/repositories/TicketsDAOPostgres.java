@@ -23,7 +23,9 @@ public class TicketsDAOPostgres implements TicketsDAO{
 
             preparedStatement.execute();
             ResultSet rs = preparedStatement.getGeneratedKeys();
+            System.out.println(rs);
             rs.next();
+            System.out.println(rs);
             int generatedKey = rs.getInt("id");
             tickets.setId(generatedKey);
             return tickets;
@@ -31,8 +33,8 @@ public class TicketsDAOPostgres implements TicketsDAO{
         }
         catch (SQLException e){
             e.printStackTrace();
-            return null;
         }
+        return null;
     }
 
     @Override
@@ -60,16 +62,17 @@ public class TicketsDAOPostgres implements TicketsDAO{
             // Creating a new ticket object
             Tickets tickets = new Tickets();
             tickets.setId(rs.getInt("id"));
-            tickets.setAmount(rs.getLong("amount"));
+            tickets.setAmount(rs.getFloat("amount"));
             tickets.setDescriptions(rs.getString("descriptions"));
+            tickets.setUkey(rs.getInt("ukey"));
             tickets.setStatus(Status.valueOf(rs.getString("status")));
 
             return tickets;
         }
         catch(SQLException e) {
             e.printStackTrace();
-            return null;
         }
+        return null;
     }
 
     @Override
@@ -83,9 +86,10 @@ public class TicketsDAOPostgres implements TicketsDAO{
             while (rs.next()) {
                 Tickets tickets = new Tickets();
                 tickets.setId(rs.getInt("id"));
-                tickets.setAmount(rs.getLong("amount"));
+                tickets.setAmount(rs.getFloat("amount"));
                 tickets.setDescriptions(rs.getString("descriptions"));
                 tickets.setStatus(Status.valueOf(rs.getString("status")));
+                tickets.setUkey(rs.getInt("ukey"));
                 ticketsList.add(tickets);
 
             }
@@ -108,7 +112,7 @@ public class TicketsDAOPostgres implements TicketsDAO{
             while (rs.next()) {
                 Tickets tickets = new Tickets();
                 tickets.setId(rs.getInt("id"));
-                tickets.setAmount(rs.getLong("amount"));
+                tickets.setAmount(rs.getFloat("amount"));
                 tickets.setDescriptions(rs.getString("descriptions"));
                 tickets.setStatus(Status.valueOf(rs.getString("status")));
                 ticketsList.add(tickets);
@@ -123,10 +127,36 @@ public class TicketsDAOPostgres implements TicketsDAO{
         return null;
     }
 
+
+    @Override
+    public List<Tickets> getUserTickets(int id) {
+        try(Connection connection = ConnectionFactory.getConnection()) {
+            String sql = "Select * from tickets where ukey = ?";
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            List<Tickets> ticketsList = new ArrayList<>();
+
+            while (rs.next()) {
+                Tickets t_tickets = new Tickets();
+                t_tickets.setId(rs.getInt("id"));
+                t_tickets.setAmount(rs.getFloat("amount"));
+                t_tickets.setDescriptions(rs.getString("descriptions"));
+                t_tickets.setStatus(Status.valueOf(rs.getString("status")));
+                ticketsList.add(t_tickets);
+            }
+            return ticketsList;
+        }
+        catch (SQLException e){
+            e.printStackTrace();
+        }
+            return null;
+    }
+
     @Override
     public Tickets updateTickets(Tickets tickets) {
         try(Connection connection = ConnectionFactory.getConnection()){
-            String sql = "update ticket set amount = ?, descriptions = ?, status = ?";
+            String sql = "update tickets set amount = ?, descriptions = ?, status = ?";
 
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setFloat(1, tickets.getAmount());
@@ -140,6 +170,29 @@ public class TicketsDAOPostgres implements TicketsDAO{
             e.printStackTrace();
             return null;
         }
+    }
+
+    @Override
+    public Tickets updateStatus(Tickets tickets) {
+        try(Connection connection = ConnectionFactory.getConnection()){
+            Tickets new_tickets = getTicketsById(tickets.getId());
+            if(new_tickets.getStatus().equals(Status.PENDING)) {
+                String sql = "update tickets set status = ? where id = ?";
+                PreparedStatement ps = connection.prepareStatement(sql);
+                ps.setString(1, tickets.getStatus().name());
+                ps.setInt(2, tickets.getId());
+                ps.executeUpdate();
+                new_tickets.setStatus(tickets.getStatus());
+                return new_tickets;
+            }
+            else {
+                throw new RuntimeException("Status is not PENDING and therefore cannot be changed!");
+            }
+        }
+        catch (SQLException e){
+            e.printStackTrace();
+        }
+            return null;
     }
 
     @Override

@@ -34,10 +34,13 @@ public class Driver {
 
         app.get("/tickets/byid/{id}", ticketsController.getTicketsByIdHandler );
         app.get("/tickets", ticketsController.getAllTickets);
-        app.get("/tickets/pending", ticketsController.getPendingTicketsHandler);
         app.post("/tickets", ticketsController.createTickets);
         app.put("/tickets", ticketsController.updateTicketsHandler);
         app.delete("/tickets/{id}", ticketsController.deleteTicketsHandler);
+
+        app.get("/tickets/pending", ticketsController.getPendingTicketsHandler);
+        app.put("/updateStatus/{id}", ticketsController.updateStatusHandler);
+
 
         app.post("/login", userContoller.loginUserHandler);
         app.get("/logout",  userContoller.logoutUserHandler);
