@@ -1,6 +1,7 @@
 package dev.Kim.controllers;
 
 import com.google.gson.Gson;
+import dev.Kim.entities.Login;
 import dev.Kim.entities.User;
 import io.javalin.http.Handler;
 import dev.Kim.driver.Driver;
@@ -14,9 +15,14 @@ public class UserContoller {
         Gson gson = new Gson();
         User user = gson.fromJson(json, User.class);
         User registeredUser = Driver.userService.createUser(user);
-        String userJson = gson.toJson(registeredUser);
-        ctx.status(201);
-        ctx.result(userJson);
+        if(registeredUser == null){
+            ctx.status(400);
+            ctx.result("Username already exists in the database.");
+        }
+        else {
+            ctx.status(200);
+            ctx.result("Your account has been created!");
+        }
     };
 
     public Handler getUserByIdHandler = (ctx) ->{
@@ -56,4 +62,45 @@ public class UserContoller {
         }
     };
 
+    // Checking to make sure that the username and password we  receive
+    // is from JSON and in the DB
+    public Handler loginUserHandler = (ctx) ->{
+        if(Driver.login == null){
+            String  json = ctx.body();
+            Gson gson = new Gson();
+            Login login = gson.fromJson(json, Login.class);
+            int authenticateUser = Driver.userService.authenticateUser(login.getUsername(), login.getPassword());
+            if(authenticateUser == 1){
+                ctx.status(202);
+                ctx.result("Successful login!");
+            }
+            else if (authenticateUser == 2){
+                ctx.status(404);
+                ctx.result("Username was not found or invalid!");
+            }
+            else if (authenticateUser == 3){
+                ctx.status(401);
+                ctx.result("Password does not match!");
+            }
+//            String userJson = gson.toJson(authenticateUser);
+//            ctx.status(201);
+//            ctx.result(userJson);
+        }
+        else {
+            ctx.status(403);
+            ctx.result("SOMEONE IS USING THE RESTROOM! OCCUPIED!");
+        }
+    };
+
+    public Handler logoutUserHandler = (ctx) ->{
+        if(Driver.login != null){
+            Driver.login = null;
+            ctx.status(200);
+            ctx.result("Successfully logged out!");
+        }
+        else {
+            ctx.status(410);
+            ctx.result("No one is logged in! RESTROOM VACANT!");
+        }
+    };
 }

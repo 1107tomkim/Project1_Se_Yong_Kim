@@ -11,6 +11,9 @@ public interface UserService {
 
     // READ
     User getUserById(int id);
+    User getUserByUsername(String username);
+
+    int authenticateUser(String username, String password);
 
     List<User> getAllUsers();
 

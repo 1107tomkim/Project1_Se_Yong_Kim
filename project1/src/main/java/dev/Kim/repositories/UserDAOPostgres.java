@@ -1,5 +1,6 @@
 package dev.Kim.repositories;
 
+import dev.Kim.entities.Tickets;
 import dev.Kim.entities.User;
 import dev.Kim.util.ConnectionFactory;
 
@@ -14,7 +15,7 @@ public class UserDAOPostgres implements UserDAO{
             String sql = "insert into users values(default, ?, ?, ?)";
             PreparedStatement preparedStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             preparedStatement.setString(1, user.getUsername());
-            preparedStatement.setString(2, user.getUsername());
+            preparedStatement.setString(2, user.getPassword());
             preparedStatement.setBoolean(3, user.isManager());
 
 
@@ -58,6 +59,29 @@ public class UserDAOPostgres implements UserDAO{
     }
 
     @Override
+    public User getUserByUsername(String username) {
+        try (Connection connection = ConnectionFactory.getConnection()){
+            String sql = "select * from users where username = ?";
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setString(1, username);
+            ResultSet rs = ps.executeQuery();
+            rs.next();
+
+            User user = new User();
+            user.setId(rs.getInt("id"));
+            user.setUsername(rs.getString("username"));
+            user.setPassword(rs.getString("password"));
+            user.setManager(rs.getBoolean("isManager"));
+            return user;
+        }
+        catch (SQLException e){
+            System.out.print("This is from the catch block  ");
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    @Override
     public List<User> getAllUsers() {
         try(Connection connection = ConnectionFactory.getConnection()) { // Checking for connection to make sure we are connected
             String sql = "select * from users"; // Creating a sql string so we can write what we want sql to do
@@ -86,6 +110,15 @@ public class UserDAOPostgres implements UserDAO{
     public User UpdateUser(User user) {
         try (Connection connection = ConnectionFactory.getConnection()){
             String sql = "Update user set username = ?, password = ?, isManager = ?, id = ? ";
+
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setString(1, user.getUsername());
+            ps.setString(2, user.getPassword());
+            ps.setBoolean(3, user.isManager());
+
+            ps.executeUpdate();
+            return user;
+
         }
         catch (SQLException e){
             e.printStackTrace();
@@ -95,6 +128,65 @@ public class UserDAOPostgres implements UserDAO{
 
     @Override
     public boolean deleteUserById(int id) {
-        return false;
+        try(Connection connection = ConnectionFactory.getConnection()){
+            String sql = "delete from user where id = ?";
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1,id);
+
+            ps.execute();
+            return true;
+        }
+        catch(SQLException e){
+            e.printStackTrace();
+            return false;
+        }
     }
-}
+
+    /*@Override
+    public Tickets createTickets(Tickets tickets) {
+        try(Connection connection = ConnectionFactory.getConnection()){
+            String sql = "insert into tickets values(default, ?, ? ,?)";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            preparedStatement.setLong(1, tickets.getAmount());
+            preparedStatement.setString(2, tickets.getDescriptions());
+            preparedStatement.setString(3, tickets.getStatus().name());
+
+            preparedStatement.execute();
+            ResultSet rs = preparedStatement.getGeneratedKeys();
+            rs.next();
+            int generatedKey = rs.getInt("id");
+            tickets.setId(generatedKey);
+            return tickets;
+
+        }
+        catch (SQLException e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    @Override
+    public Tickets getTicketsById(int id) {
+        try(Connection connection = ConnectionFactory.getConnection()){
+            String sql = "select * from tickets where id = ?";
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, id);
+
+            ps.execute();
+            ResultSet rs = ps.executeQuery();
+            rs.next();
+
+            Tickets tickets = new Tickets();
+            tickets.setId(rs.getInt("id"));
+            tickets.setAmount(rs.getLong("amount"));
+            tickets.setDescriptions(rs.getString("descriptions"));
+            tickets.setStatus(rs.getStatus().name("isManager"));  //????
+            ticketsList.add(tickets);
+
+        }
+        catch (SQLException e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+*/}
