@@ -40,7 +40,7 @@ public class Driver {
 
         app.get("/tickets/pending", ticketsController.getPendingTicketsHandler);
         app.put("/updateStatus/{id}", ticketsController.updateStatusHandler);
-
+        app.get("/getUserTickets", ticketsController.getUserTicketsHandler);
 
         app.post("/login", userContoller.loginUserHandler);
         app.get("/logout",  userContoller.logoutUserHandler);

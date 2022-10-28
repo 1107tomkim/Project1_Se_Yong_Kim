@@ -16,11 +16,7 @@ public class TicketsServiceImpl implements TicketsService{
     @Override
     public Tickets createTickets(Tickets tickets) {
         System.out.println(tickets);
-        if(tickets.getDescriptions().length() == 0 || tickets.getDescriptions() == null){
-//            System.out.println(tickets);
-//            Tickets faketicket = new Tickets();
-//            faketicket.setId(-1);
-//            return faketicket;
+        if(tickets.getDescriptions() == null || tickets.getDescriptions().length() == 0){
             throw new RuntimeException("Description cannot be empty!");
         }
         if(tickets.getAmount() <= 0 || tickets.getAmount() > 100000){
