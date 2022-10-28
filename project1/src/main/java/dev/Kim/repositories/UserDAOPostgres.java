@@ -109,12 +109,13 @@ public class UserDAOPostgres implements UserDAO{
     @Override
     public User UpdateUser(User user) {
         try (Connection connection = ConnectionFactory.getConnection()){
-            String sql = "Update user set username = ?, password = ?, isManager = ?, id = ? ";
+            String sql = "Update users set username = ?, password = ?, isManager = ?, id = ? ";
 
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setString(1, user.getUsername());
             ps.setString(2, user.getPassword());
             ps.setBoolean(3, user.isManager());
+            ps.setInt(4, user.getId());
 
             ps.executeUpdate();
             return user;
