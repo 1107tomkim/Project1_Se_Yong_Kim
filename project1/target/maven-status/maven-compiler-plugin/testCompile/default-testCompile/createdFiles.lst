@@ -1,0 +1,3 @@
+dev\Kim\repositories\UserDAOTest.class
+dev\Kim\repositories\TicketsDAOTest.class
+dev\Kim\smoketests\ConnectionTests.class

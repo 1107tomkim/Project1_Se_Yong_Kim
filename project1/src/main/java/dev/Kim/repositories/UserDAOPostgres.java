@@ -128,6 +128,34 @@ public class UserDAOPostgres implements UserDAO{
     }
 
     @Override
+    public User UpdateRole(int id) {
+        try (Connection connection = ConnectionFactory.getConnection()){
+            User new_users = getUserById(id);
+            if(new_users.isManager() == true){
+                String sql = "update users set ismanager = false where id = ?";
+                PreparedStatement ps = connection.prepareStatement(sql);
+                ps.setInt(1, id);
+                ps.executeUpdate();
+                new_users.setManager(false);
+                return new_users;
+            }
+            else {
+                String sql = "update users set ismanager = true where id = ?";
+                PreparedStatement ps = connection.prepareStatement(sql);
+                ps.setInt(1, id);
+                ps.executeUpdate();
+                new_users.setManager(true);
+                return new_users;
+
+            }
+        }
+        catch (SQLException e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
     public boolean deleteUserById(int id) {
         try(Connection connection = ConnectionFactory.getConnection()){
             String sql = "delete from user where id = ?";

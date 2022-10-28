@@ -6,6 +6,8 @@ public class Tickets {
     private int id;
     private float amount;
     private String descriptions;
+
+    private String rtypes = "Other";
     Status status = Status.PENDING;
 
     private int ukey;
@@ -13,8 +15,6 @@ public class Tickets {
     public Tickets(){
 
     }
-
-
 
     public Tickets(int id, float amount, String descriptions, int ukey, Status status) {
         this.id = id;
@@ -24,17 +24,25 @@ public class Tickets {
         this.status = status;
     }
 
+    public String getrtypes() {
+        return rtypes;
+    }
+
+    public void setrtypes(String rtypes) {
+        this.rtypes = rtypes;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Tickets)) return false;
         Tickets tickets = (Tickets) o;
-        return id == tickets.id && Float.compare(tickets.amount, amount) == 0 && ukey == tickets.ukey && Objects.equals(descriptions, tickets.descriptions) && status == tickets.status;
+        return id == tickets.id && Float.compare(tickets.amount, amount) == 0 && ukey == tickets.ukey && Objects.equals(descriptions, tickets.descriptions) && Objects.equals(rtypes, tickets.rtypes) && status == tickets.status;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, amount, descriptions, status, ukey);
+        return Objects.hash(id, amount, descriptions, rtypes, status, ukey);
     }
 
     @Override
@@ -43,8 +51,9 @@ public class Tickets {
                 "id=" + id +
                 ", amount=" + amount +
                 ", descriptions='" + descriptions + '\'' +
-                ", ukey=" + ukey +
+                ", types='" + rtypes + '\'' +
                 ", status=" + status +
+                ", ukey=" + ukey +
                 '}';
     }
 

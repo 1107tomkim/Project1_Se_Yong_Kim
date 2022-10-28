@@ -12,7 +12,7 @@ public class UserDAOTest {
     @Test
     @Order(1)
     void create_user_test() {
-        User testUser = new User("ShawnWhite", "12345");
+        User testUser = new User("Shawnpurple", "12345");
         User savedUser = userDAO.createUser(testUser);
         System.out.println(savedUser);
         Assertions.assertNotEquals(0,savedUser.getId());

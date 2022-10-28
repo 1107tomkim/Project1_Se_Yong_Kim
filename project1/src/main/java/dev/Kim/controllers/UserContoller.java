@@ -72,7 +72,7 @@ public class UserContoller {
             int authenticateUser = Driver.userService.authenticateUser(login.getUsername(), login.getPassword());
             if(authenticateUser == 1){
                 ctx.status(202);
-                ctx.result("Successful login!");
+                ctx.result("<h1> Successful login!</h1>");
             }
             else if (authenticateUser == 2){
                 ctx.status(404);
@@ -101,6 +101,28 @@ public class UserContoller {
         else {
             ctx.status(410);
             ctx.result("No one is logged in! RESTROOM VACANT!");
+        }
+    };
+
+    public Handler changeRoleHandler = (ctx) ->{
+        User updateUser = new User();
+        if(Driver.login == null){
+            ctx.status(400);
+            ctx.result("No one is logged in, please login first and try again!");
+        }
+        else {
+            int id = Integer.parseInt(ctx.pathParam("id"));
+            updateUser = Driver.userService.UpdateRole(id);
+            if(updateUser == null){
+                ctx.status(400);
+                ctx.result("Not an Admin!");
+            }
+            else{
+                Gson gson = new Gson();
+                String json = gson.toJson(updateUser);
+                ctx.status(200);
+                ctx.result(json);
+            }
         }
     };
 }

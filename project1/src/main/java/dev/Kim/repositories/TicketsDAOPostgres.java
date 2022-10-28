@@ -14,12 +14,13 @@ public class TicketsDAOPostgres implements TicketsDAO{
     public Tickets createTickets(Tickets tickets) {
         System.out.println(tickets);
         try(Connection connection = ConnectionFactory.getConnection()) {
-            String sql = "insert into tickets values(default, ?, ?, ? ,?)";
+            String sql = "insert into tickets values(default, ?, ?, ? ,? ,?)";
             PreparedStatement preparedStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             preparedStatement.setFloat(1, tickets.getAmount());
             preparedStatement.setString(2, tickets.getDescriptions());
             preparedStatement.setInt(3, tickets.getUkey());
             preparedStatement.setString(4, tickets.getStatus().name());
+            preparedStatement.setString(5, tickets.getrtypes());
 
             preparedStatement.execute();
             ResultSet rs = preparedStatement.getGeneratedKeys();
@@ -66,6 +67,7 @@ public class TicketsDAOPostgres implements TicketsDAO{
             tickets.setDescriptions(rs.getString("descriptions"));
             tickets.setUkey(rs.getInt("ukey"));
             tickets.setStatus(Status.valueOf(rs.getString("status")));
+            tickets.setrtypes(rs.getString("rtypes"));
 
             return tickets;
         }
@@ -90,6 +92,7 @@ public class TicketsDAOPostgres implements TicketsDAO{
                 tickets.setDescriptions(rs.getString("descriptions"));
                 tickets.setStatus(Status.valueOf(rs.getString("status")));
                 tickets.setUkey(rs.getInt("ukey"));
+                tickets.setrtypes(rs.getString("rtypes"));
                 ticketsList.add(tickets);
 
             }
@@ -115,6 +118,7 @@ public class TicketsDAOPostgres implements TicketsDAO{
                 tickets.setAmount(rs.getFloat("amount"));
                 tickets.setDescriptions(rs.getString("descriptions"));
                 tickets.setStatus(Status.valueOf(rs.getString("status")));
+                tickets.setrtypes(rs.getString("rtypes"));
                 ticketsList.add(tickets);
 
 
@@ -143,6 +147,7 @@ public class TicketsDAOPostgres implements TicketsDAO{
                 t_tickets.setAmount(rs.getFloat("amount"));
                 t_tickets.setDescriptions(rs.getString("descriptions"));
                 t_tickets.setStatus(Status.valueOf(rs.getString("status")));
+                t_tickets.setrtypes(rs.getString("rtypes"));
                 ticketsList.add(t_tickets);
             }
             return ticketsList;

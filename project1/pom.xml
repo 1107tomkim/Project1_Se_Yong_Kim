@@ -38,7 +38,6 @@
     </dependencies>
 
 
-<!--
     <build>
         <plugins>
             <plugin>
@@ -66,7 +65,7 @@
                 </executions>
             </plugin>
         </plugins>
-    </build>-->
+    </build>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>

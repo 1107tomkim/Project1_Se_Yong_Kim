@@ -1,0 +1,16 @@
+dev\Kim\driver\Driver.class
+dev\Kim\repositories\TicketsDAO.class
+dev\Kim\repositories\UserDAOPostgres.class
+dev\Kim\entities\Tickets.class
+dev\Kim\services\TicketsService.class
+dev\Kim\services\TicketsServiceImpl.class
+dev\Kim\entities\Status.class
+dev\Kim\services\UserService.class
+dev\Kim\entities\User.class
+dev\Kim\entities\Login.class
+dev\Kim\controllers\TicketsController.class
+dev\Kim\controllers\UserContoller.class
+dev\Kim\repositories\TicketsDAOPostgres.class
+dev\Kim\repositories\UserDAO.class
+dev\Kim\services\UserServiceImpl.class
+dev\Kim\util\ConnectionFactory.class

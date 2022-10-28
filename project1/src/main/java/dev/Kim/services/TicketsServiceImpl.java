@@ -6,6 +6,7 @@ import dev.Kim.entities.Tickets;
 import dev.Kim.repositories.TicketsDAO;
 import dev.Kim.repositories.TicketsDAOPostgres;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class TicketsServiceImpl implements TicketsService{
@@ -50,6 +51,18 @@ public class TicketsServiceImpl implements TicketsService{
     @Override
     public List<Tickets> getUserTickets(int id) {
         return this.ticketsDAO.getUserTickets(id);
+    }
+
+    @Override
+    public List<Tickets> getUserTicketsbyType(int id, String rtypes) {
+        List<Tickets> ticketsList = this.ticketsDAO.getUserTickets(id);
+        List<Tickets> returnTickets = new ArrayList<>();
+        for(Tickets T: ticketsList){
+            if(T.getrtypes().equals(rtypes)){
+                returnTickets.add(T);
+            }
+        }
+        return returnTickets;
     }
 
     @Override

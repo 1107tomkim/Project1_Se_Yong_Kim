@@ -14,6 +14,7 @@ public class TicketsController {
         String json = ctX.body(); //
         Gson gson = new Gson();
         Tickets tickets = gson.fromJson(json, Tickets.class);
+        System.out.println(tickets);
         tickets.setUkey(Driver.login.getId());
         System.out.println(tickets);
         try {
@@ -103,4 +104,11 @@ public class TicketsController {
         ctx.result(json);
     };
 
+    public Handler getUserTicketsByrTypes = (ctx) ->{
+        String rtypes = ctx.pathParam("rtypes").trim();
+        List<Tickets> tickets = Driver.ticketsService.getUserTicketsbyType(Driver.login.getId(), rtypes);
+        Gson gson = new Gson();
+        String json = gson.toJson(tickets);
+        ctx.result(json);
+    };
 }

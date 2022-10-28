@@ -25,6 +25,7 @@ public interface UserDAO {
 
     // UPDATE
     User UpdateUser(User user);
+    User UpdateRole(int id);
 
 
     // DELETE

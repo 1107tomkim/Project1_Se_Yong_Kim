@@ -19,6 +19,7 @@ public interface UserService {
 
     // UPDATE
     User UpdateUser(User user);
+    User UpdateRole(int id);
 
     // DELETE
     boolean deleteUserById(int id);

@@ -45,6 +45,10 @@ public class Driver {
         app.post("/login", userContoller.loginUserHandler);
         app.get("/logout",  userContoller.logoutUserHandler);
 
+        // STRETCH GOALS
+        app.get("/getUserTickets/{rtypes}", ticketsController.getUserTicketsByrTypes);
+        app.put("/updaterole/{id}", userContoller.changeRoleHandler);
+
 
 
 
