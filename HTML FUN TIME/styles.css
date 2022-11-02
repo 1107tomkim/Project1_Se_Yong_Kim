@@ -1,0 +1,16 @@
+@import url('https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900&display=swap');
+
+
+*{
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+}
+
+body{
+    background-image: url(https://media4.giphy.com/media/4mXjpVNJAFlvi/giphy.gif?cid=ecf05e470xwflp7vfj7t0t6oootxinin4zkwo151oddra71a&rid=giphy.gif&ct=g);
+    width: fit-content;
+    height: fit-content; 
+}
+
+
