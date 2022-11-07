@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Document</title>
+</head>
+<body>
+    <section>
+        <div class="container">
+            <div id="display"></div>
+            <div class="buttons">
+                <div id="cbut" class="button">Clear</div>
+                <div class="button">/</div>
+                <div class="button">*</div>
+                <div class="button">&larr;</div>
+                <div class="button">7</div>
+                <div class="button">8</div>
+                <div class="button">9</div>
+                <div class="button">-</div>
+                <div class="button">4</div>
+                <div class="button">5</div>
+                <div class="button">6</div>
+                <div class="button">+</div>
+                <div class="button">1</div>
+                <div class="button">2</div>
+                <div class="button">3</div>
+                <div class="button">.</div>
+                <div class="button">(</div>
+                <div class="button">0</div>
+                <div class="button">)</div>
+                <div id="equal" class="button">=</div>
+                </div>
+
+        </div>
+    </section>
+
+
+
+</body>
+<script>
+    let display = document.getElementById('display');
+
+    let buttons = Array.from(document.getElementsByClassName('button'));
+
+    buttons.map( button => {
+        button.addEventListener('click', (event) => {
+            // console.log(event); grabs the event in array form -> PointerEvent {isTrusted: true, pointerId: 1, width: 1, height: 1, pressure: 0, …}
+            // console.log(event.target); grabs the specific target of the event -> <div class="button">1</div>
+            // console.log(event.target.innerText); grabs the specific inner text of the value grabbed -> 1
+            switch(event.target.innerText){
+                case 'Clear':
+                    display.innerText = '';
+                    break;
+                case '←':
+                    display.innerText = display.innerText.slice(0,-1);
+                    break;
+                case '=':
+                    display.innerText = eval(display.innerText);
+                    break;
+                default:
+                    display.innerText += event.target.innerText;
+
+            }
+        });
+    });
+
+
+
+</script>
+</html>

@@ -19,7 +19,11 @@ public class Driver {
     public static User login = null;
 
     public static void main(String[] args) {
-        Javalin app = Javalin.create();
+        Javalin app = Javalin.create(
+            config -> {
+                config.enableCorsForAllOrigins();
+            }
+        );
 
         UserContoller userContoller = new UserContoller();
 

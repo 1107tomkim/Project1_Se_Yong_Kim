@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Ticket System</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
+ rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" 
+ crossorigin="anonymous">
+</head>
+<body>
+    <div class="container">
+        <h3>Welcome to Tommy's Ticket System!</h3>
+
+        <div id="table-row" class="row">
+            <table class ="table table-dark table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Amount</th>
+                        <th>Description</th>
+                        <th>Unique Key</th>
+                        <th>Status</th>
+                        <th>Types</th>
+                    </tr>
+                </thead>
+                <tbody id="ticketsBody"></tbody>
+            </table>
+        </div>
+
+        <button id="getTicketsButton" class="btn btn-success">Show Tickets</button>
+
+        <br><br>
+
+        <h5>Submit a New Ticket:</h5>
+        <input type="text" id="amount" placeholder="Insert Amount Here: ">
+        <input type="text" id="description" placeholder="Insert description Here: ">
+        <input type="text" id="rtypes" placeholder="Insert Type Here: ">
+        <button id="submitTicket" class="btn btn-primary col-sm-4">Create Ticket</button>
+
+        <div id="byebye">
+            <button id="logout" class="btn btn-warning btn-lg col-sm-4">Logout</button>
+        </div>
+
+
+
+    </div>
+    <script src="ticket.js"></script>
+
+</body>
+</html>

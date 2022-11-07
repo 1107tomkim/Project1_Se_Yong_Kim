@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h2>Grocery List</h2>
+
+    <input type="txt" name="" id="input">
+    <button id="button">Add Grocery</button>
+
+    <h4>Groceries</h4>
+    <ul id="list">
+
+
+    </ul>
+</body>
+
+<script>
+    const input = document.getElementById("input");
+    const button = document.getElementById("button");
+    const list = document.getElementById("list");
+
+    //Something to hold all the groceries.
+
+    const groceries = [];
+    button.addEventListener("click", function(event){
+        const grocery = input.value;
+
+        groceries.push(grocery);
+
+        const li = document.createElement('li');
+        li.innerText = grocery;
+        list.appendChild(li);
+        console.log(groceries);
+
+    })
+
+</script>
+
+</html>
